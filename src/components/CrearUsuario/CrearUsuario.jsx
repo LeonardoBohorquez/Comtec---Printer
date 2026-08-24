@@ -7,14 +7,13 @@ import { FaRegUser } from "react-icons/fa";
 import { IoKeyOutline } from "react-icons/io5";
 import { GoArrowLeft } from "react-icons/go";
 import { TfiEmail } from "react-icons/tfi";
-import { IoIosSend } from "react-icons/io";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FiPhone } from "react-icons/fi";
 import { RiUserAddLine } from "react-icons/ri";
 import { LuDelete } from "react-icons/lu";
 
 
-function CrearUsuario({ listado }) {
+function CrearUsuario({ agregarUsuarios, listado }) {
     const [usuario, setUsuario] = useState("")
     const [numero, setNumero] = useState("")
     const [email, setEmail] = useState("")
@@ -42,8 +41,6 @@ function CrearUsuario({ listado }) {
                 progress: true,
                 position: "top-center",
                 transition: "popUp",
-                icon: '',
-                sound: true,
             });
 
             setTimeout(() => {
@@ -76,6 +73,7 @@ function CrearUsuario({ listado }) {
 
         }
 
+
         if (contraseña !== repetirContraseña) {
 
             showToast.warning("Las contraseñas deben de coincidir", {
@@ -95,6 +93,17 @@ function CrearUsuario({ listado }) {
 
         }
 
+        const guardarUsuario = () => {
+
+            const nuevoUsuario = {
+                usuario: usuario,
+                contraseña: contraseña,
+                email: email
+            };
+
+            agregarUsuarios(nuevoUsuario);
+        };
+
         toastMostrado.current = true;
 
         showToast.success("Usuario registrado", {
@@ -111,11 +120,11 @@ function CrearUsuario({ listado }) {
         }, 3000);
 
         resetearForm()
-
+        guardarUsuario()
+        
     }
-
+    
     const resetearForm = () => {
-
         setUsuario("")
         setNumero("")
         setEmail("")

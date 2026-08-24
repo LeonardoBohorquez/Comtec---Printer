@@ -1,29 +1,80 @@
 
-import { useState } from 'react';
-import toast from 'react-hot-toast';
-import logo from '../../assets/img/ComtecGlobal.png'
-import imgForm from '../../assets/img/imgForm.png'
+import { useRef, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { showToast } from "nextjs-toast-notify";
 import { FaRegUser } from "react-icons/fa";
 import { IoKeyOutline } from "react-icons/io5";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import logo from '../../assets/img/ComtecGlobal.png'
+import imgForm from '../../assets/img/imgForm.png'
 
 function login({ listado }) {
     const [usuario, setUsuario] = useState("")
     const [contraseña, setContraseña] = useState("")
     const [mostrarPassword, setMostrarPassword] = useState(false);
+    const navigate = useNavigate();
+    const toastMostrado = useRef(false);
 
     const mensaje = (e) => {
         e.preventDefault()
 
-        const busqueda = listado.find((item) => item.usuario === usuario && item.contraseña === contraseña)
+        const busqueda = listado.find((item) => item.usuario === usuario && item.contraseña === contraseña) //Validacion de existencia de usuario.
 
-        busqueda ? toast.success("Bienvenido  " + busqueda.usuario, { id: "login-success", duration: 3000, })
-            :
-            toast.error("Usuario o contraseña incorrectos", { id: "login-error", duration: 3000, });
+        if (usuario === "" || contraseña === "") { //Validacion de campos vacios.
 
-        setUsuario("")
-        setContraseña("")
+            if (toastMostrado.current) return;
+
+            toastMostrado.current = true;
+
+            showToast.warning("Todos los campos deben estar completados", {
+                duration: 1500,
+                progress: true,
+                position: "top-center",
+                transition: "popUp",
+            });
+
+            setTimeout(() => {
+                toastMostrado.current = false;
+            }, 1500);
+
+            return;
+        }
+
+        if (busqueda) { // confirmracion de login
+
+            if (toastMostrado.current) return;
+
+            toastMostrado.current = true;
+
+            showToast.success(" Bienvenido " + usuario, {
+                duration: 1500,
+                progress: true,
+                position: "top-center",
+                transition: "popUp",
+            });
+
+            setTimeout(() => {
+                toastMostrado.current = false;
+                navigate("/RecuperarContraseña")
+            }, 1500);
+
+            return;
+
+        } else {
+
+            console.log(busqueda)
+            showToast.error(" Usuario o contraseña incorrecto ", {
+                duration: 1500,
+                progress: true,
+                position: "top-center",
+                transition: "popUp",
+            });
+
+        }
+
+        setUsuario("") // reset de input usuario
+        setContraseña("") // rerset de input contraseña
     }
 
     return (
