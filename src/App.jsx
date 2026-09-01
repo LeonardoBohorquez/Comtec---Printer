@@ -1,6 +1,8 @@
 import Login from './components/Login/login'
 import RecuperarContraseña from './components/RecuperarContraseña/RecuperarContraseña';
 import CrearUsuario from './components/CrearUsuario/CrearUsuario';
+import Monitoreo from './components/Monitoreo/Monitoreo';
+import Menu from './components/Monitoreo/Menu/Menu';
 import { Toaster } from 'react-hot-toast';
 import { Routes, Route } from 'react-router-dom'
 import './App.css'
@@ -38,6 +40,8 @@ function App() {
         <Route path='/' element={<Login listado={dataUsuarios} />} />
         <Route path='/RecuperarContraseña' element={<RecuperarContraseña listado={dataUsuarios} />} />
         <Route path='/CrearUsuario' element={<CrearUsuario agregarUsuarios={agregarUsuario} listado={dataUsuarios} />} />
+        <Route path='/Monitoreo' element={<Monitoreo />} />
+        <Route path='/Menu' element={<Menu/>} />
       </Routes>
     </>
   )

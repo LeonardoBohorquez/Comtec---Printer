@@ -73,6 +73,26 @@ function CrearUsuario({ agregarUsuarios, listado }) {
 
         }
 
+        if (contraseña.length < 5) {
+            if (toastMostrado.current) return;
+
+            toastMostrado.current = true;
+
+            showToast.warning("La contraseña debe de tener maximo 5 caracteres", {
+                duration: 3000,
+                progress: true,
+                position: "top-center",
+                transition: "popUp",
+                icon: '',
+                sound: true,
+            });
+
+            setTimeout(() => {
+                toastMostrado.current = false;
+            }, 3000);
+
+            return;
+        }
 
         if (contraseña !== repetirContraseña) {
 
@@ -121,9 +141,9 @@ function CrearUsuario({ agregarUsuarios, listado }) {
 
         resetearForm()
         guardarUsuario()
-        
+
     }
-    
+
     const resetearForm = () => {
         setUsuario("")
         setNumero("")

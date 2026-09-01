@@ -56,7 +56,7 @@ function login({ listado }) {
 
             setTimeout(() => {
                 toastMostrado.current = false;
-                navigate("/RecuperarContraseña")
+                navigate("/Monitoreo")
             }, 1500);
 
             return;
