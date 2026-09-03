@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
-
+import Menu from './Menu/Menu'
 
 
 function Monitoreo (){
     return (
-        <h1>MONITREO</h1>
+        <Menu />    
     )
 }
 
