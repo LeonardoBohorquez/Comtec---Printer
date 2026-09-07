@@ -1,64 +1,86 @@
 import imgForm from '../../assets/img/imgForm.png'
 import logo from '../../assets/img/ComtecGlobal.png'
 import { Link } from 'react-router-dom';
-import { useRef,useState } from 'react';
+import { useRef, useState } from 'react';
 import { GoArrowLeft } from "react-icons/go";
 import { TfiEmail } from "react-icons/tfi";
 import { IoIosSend } from "react-icons/io";
 import { showToast } from "nextjs-toast-notify";
 
 
-function RecuperarContraseña({ listado }) {
+function RecuperarContraseña() {
     const [email, setEmail] = useState("")
     const toastMostrado = useRef(false);
 
-    const mensaje = (e) => {
+    function Validar(e) {
         e.preventDefault()
 
-        const busqueda = listado.find((item) => item.email === email)
+        const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-        if (email === "") {
+        if (email === "") { //Validacion de campos vacios.
 
-            if (toastMostrado.current) return;
+            if (!toastMostrado.current) {
+                showToast.warning("El campo de correo electrónico no puede estar vacío", {
+                    duration: 1500,
+                    position: "top-center",
+                    transition: "popUp",
+                });
 
-            toastMostrado.current = true;
+                toastMostrado.current = true;
 
-            showToast.warning("Debe registrar un correo electronico", {
-                duration: 2500,
-                progress: true,
-                position: "top-center",
-                transition: "popUp",
-            });
+                setTimeout(() => {
+                    toastMostrado.current = false;
+                }, 1500);
 
-             setTimeout(() => {
-                toastMostrado.current = false;
-            }, 2500);
+                return;
+            }
 
-            return
         }
 
-        if (busqueda) {
-            showToast.success("Se ha enviado un correo a su email para la recuperacion de contraseña", {
-                duration: 2500,
-                progress: true,
-                position: "top-center",
-                transition: "popUp",
-            });
-        } else {
-            showToast.error("El correo no existe", {
-                duration: 2500,
-                progress: true,
-                position: "top-center",
-                transition: "popUp",
-            });
+        if (!usuarios.some((usuario) => usuario.email === email)) { //Validacion de existencia de correo electrónico.
+
+            if (!toastMostrado.current) {
+                showToast.error("El correo electrónico ingresado no está registrado", {
+                    duration: 1500,
+                    position: "top-center",
+                    transition: "popUp",
+                });
+                toastMostrado.current = true;
+
+                setTimeout(() => {
+                    toastMostrado.current = false;
+                }, 1500);
+
+                return;
+            }
         }
-        setEmail("")
+
+        if (usuarios.some((usuario) => usuario.email === email)) { //Confirmacion de envio de correo electrónico.
+
+            if (!toastMostrado.current) {
+                showToast.success("Se han enviado las instrucciones a tu correo electrónico", {
+                    duration: 1500,
+                    position: "top-center",
+                    transition: "popUp",
+                });
+
+                toastMostrado.current = true;
+
+                setTimeout(() => {
+                    toastMostrado.current = false;
+                }, 1500);
+
+                setEmail(""); // Limpiar el campo de correo electrónico
+
+            }
+        }
+
     }
 
     return (
         <div className="container m-auto flex justify-center items-center  h-screen">
             <div className="formulario flex flex-row w-3/4 overflow-hidden rounded-2xl shadow-xl ">
-                <form onSubmit={mensaje} className="flex flex-col justify-center text-center gap-4 pl-5 pr-5 bg-[#FFFFFF]">
+                <form onSubmit={Validar} className="flex flex-col justify-center text-center gap-4 pl-5 pr-5 bg-[#FFFFFF]">
                     <div className="logo flex justify-center">
                         <img src={logo} alt="Logo" className="w-3/5" />
                     </div>

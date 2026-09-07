@@ -1,10 +1,14 @@
-import { Routes, Route } from 'react-router-dom'
 import Menu from './Menu/Menu'
 
 
-function Monitoreo (){
+
+function Monitoreo() {
     return (
-        <Menu />    
+        <>
+            <div className="flex flex-row">
+                <Menu />
+            </div>
+        </>
     )
 }
 

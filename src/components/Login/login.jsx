@@ -1,4 +1,3 @@
-
 import { useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { showToast } from "nextjs-toast-notify";
@@ -9,19 +8,20 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/img/ComtecGlobal.png'
 import imgForm from '../../assets/img/imgForm.png'
 
-function login({ listado }) {
+function Login() {
     const [usuario, setUsuario] = useState("")
     const [contraseña, setContraseña] = useState("")
     const [mostrarPassword, setMostrarPassword] = useState(false);
     const navigate = useNavigate();
     const toastMostrado = useRef(false);
 
-    const mensaje = (e) => {
+    const Validar = (e) => {
         e.preventDefault()
 
-        const busqueda = listado.find((item) => item.usuario === usuario && item.contraseña === contraseña) //Validacion de existencia de usuario.
+        const usuarios = JSON.parse(localStorage.getItem("usuarios")) || []; // Recuperar el array de usuarios desde localStorage
+        const busqueda = usuarios.find((item) => item.usuario === usuario && item.contraseña === contraseña) //Validacion de existencia de usuario.
 
-        if (usuario === "" || contraseña === "") { //Validacion de campos vacios.
+        if (usuario === "" || contraseña === "") { // validacion de campos vacios
 
             if (toastMostrado.current) return;
 
@@ -41,7 +41,7 @@ function login({ listado }) {
             return;
         }
 
-        if (busqueda) { // confirmracion de login
+        if (busqueda) { // Si el usuario existe, mostrar mensaje de bienvenida y redirigir a la página de monitoreo
 
             if (toastMostrado.current) return;
 
@@ -66,7 +66,6 @@ function login({ listado }) {
             console.log(busqueda)
             showToast.error(" Usuario o contraseña incorrecto ", {
                 duration: 1500,
-                progress: true,
                 position: "top-center",
                 transition: "popUp",
             });
@@ -102,7 +101,7 @@ function login({ listado }) {
                             )}
                         </button>
                     </div>
-                    <button type="submit" className="bg-[#021B76] text-white  p-4 text-xl cursor-pointer rounded-xl  hover:bg-[#000155]" onClick={mensaje}>Conectar</button>
+                    <button type="submit" className="bg-[#021B76] text-white  p-4 text-xl cursor-pointer rounded-xl  hover:bg-[#000155]" onClick={Validar}>Conectar</button>
                     <Link href="" to="/RecuperarContraseña" className="text-[#2563EB] hover:underline text-xl">¿Olvidaste tu contraseña?</Link>
                     <div className="flex justify-center items-center w-full">
                         {/* Línea izquierda */}
@@ -126,4 +125,4 @@ function login({ listado }) {
     )
 }
 
-export default login
+export default Login

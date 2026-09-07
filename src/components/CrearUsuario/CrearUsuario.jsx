@@ -13,7 +13,7 @@ import { RiUserAddLine } from "react-icons/ri";
 import { LuDelete } from "react-icons/lu";
 
 
-function CrearUsuario({ agregarUsuarios, listado }) {
+function CrearUsuario() {
     const [usuario, setUsuario] = useState("")
     const [numero, setNumero] = useState("")
     const [email, setEmail] = useState("")
@@ -22,140 +22,123 @@ function CrearUsuario({ agregarUsuarios, listado }) {
     const [mostrarContraseñaUno, setMostrarContraseñaUno] = useState(false);
     const [mostrarContraseñaDos, setMostrarContraseñaDos] = useState(false);
     const toastMostrado = useRef(false);
+    
+    function Validar(e) {
+        const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
+        e.preventDefault(); //evitar que se recargue la página al enviar el formulario
 
-    const mensaje = (e) => {
+        if (!usuario || !numero || !email || !contraseña || !repetirContraseña) { //validar que todos los campos esten llenos
+            if (!toastMostrado.current) {
 
-        const correo = listado.some(usuario => usuario.email === email)
+                showToast.warning("Por favor, complete todos los campos.", {
+                    duration: 2000,
+                    progress: true,
+                    position: "top-center",
+                    transition: "bounceIn",
+                });
 
-        e.preventDefault()
+                toastMostrado.current = true;
 
-        if (usuario === "" || numero === "" || email === "" || contraseña === "" || repetirContraseña === "") {
+                setTimeout(() => {
+                    toastMostrado.current = false;
+                }, 2000);
+            }
+            return
+        }
 
-            if (toastMostrado.current) return;
+        if (usuarios.some(u => u.email === email)) { //validar que el correo electronico no este en uso
+            if (!toastMostrado.current) {
 
-            toastMostrado.current = true;
+                showToast.warning("El correo electrónico ya está en uso.", {
+                    duration: 2000,
+                    progress: true,
+                    position: "top-center",
+                    transition: "bounceIn",
+                });
 
-            showToast.warning("Todos los campos deben estar completados", {
-                duration: 3000,
-                progress: true,
-                position: "top-center",
-                transition: "popUp",
-            });
+                toastMostrado.current = true;
 
-            setTimeout(() => {
-                toastMostrado.current = false;
-            }, 3000);
-
+                setTimeout(() => {
+                    toastMostrado.current = false;
+                }, 2000);
+            }
             return;
         }
 
-        if (correo) {
+        if (contraseña !== repetirContraseña) { //validar que las contraseñas coincidan
+            if (!toastMostrado.current) {
 
-            if (toastMostrado.current) return;
+                showToast.warning("Las contraseñas no coinciden.", {
+                    duration: 2000,
+                    progress: true,
+                    position: "top-center",
+                    transition: "bounceIn",
+                });
 
-            toastMostrado.current = true;
+                toastMostrado.current = true;
 
-            showToast.warning("El correo ya se encuentra registrado", {
-                duration: 3000,
-                progress: true,
-                position: "top-center",
-                transition: "popUp",
-                icon: '',
-                sound: true,
-            });
-
-            setTimeout(() => {
-                toastMostrado.current = false;
-            }, 3000);
-
-            return;
-
+                setTimeout(() => {
+                    toastMostrado.current = false;
+                }, 2000);
+            }
+            return
         }
 
-        if (contraseña.length < 5) {
-            if (toastMostrado.current) return;
+        if (contraseña.length < 8) { //validar que la contraseña tenga al menos 8 caracteres
+            if (!toastMostrado.current) {
 
-            toastMostrado.current = true;
+                showToast.warning("La contraseña debe tener al menos 8 caracteres.", {
+                    duration: 2000,
+                    progress: true,
+                    position: "top-center",
+                    transition: "bounceIn",
+                });
 
-            showToast.warning("La contraseña debe de tener maximo 5 caracteres", {
-                duration: 3000,
-                progress: true,
-                position: "top-center",
-                transition: "popUp",
-                icon: '',
-                sound: true,
-            });
+                toastMostrado.current = true;
 
-            setTimeout(() => {
-                toastMostrado.current = false;
-            }, 3000);
+                setTimeout(() => {
+                    toastMostrado.current = false;
+                }, 2000);
+            }
 
-            return;
+            return
         }
 
-        if (contraseña !== repetirContraseña) {
-
-            showToast.warning("Las contraseñas deben de coincidir", {
-                duration: 3000,
-                progress: true,
-                position: "top-center",
-                transition: "popUp",
-                icon: '',
-                sound: true,
-            });
-
-            setTimeout(() => {
-                toastMostrado.current = false;
-            }, 3000);
-
-            return;
-
-        }
-
-        const guardarUsuario = () => {
-
-            const nuevoUsuario = {
-                usuario: usuario,
-                contraseña: contraseña,
-                email: email
-            };
-
-            agregarUsuarios(nuevoUsuario);
+        const nuevoUsuario = { //guardar los datos del usuario en un objeto
+            usuario: usuario,
+            numero: numero,
+            email: email,
+            contraseña: contraseña
         };
 
-        toastMostrado.current = true;
+        usuarios.push(nuevoUsuario); //guardar los datos del usuario en un array
 
-        showToast.success("Usuario registrado", {
-            duration: 3000,
+        localStorage.setItem("usuarios", JSON.stringify(usuarios)); //guardar los datos del usuario en el localStorage
+
+        showToast.success("Usuario creado con éxito.", {
+            duration: 2000,
             progress: true,
             position: "top-center",
-            transition: "popUp",
-            icon: '',
-            sound: true,
+            transition: "bounceIn",
         });
 
-        setTimeout(() => {
-            toastMostrado.current = false;
-        }, 3000);
-
-        resetearForm()
-        guardarUsuario()
+        resetearFormulario(); //resetear los campos del formulario
 
     }
 
-    const resetearForm = () => {
-        setUsuario("")
-        setNumero("")
-        setEmail("")
-        setContraseña("")
-        setRepetirContraseña("")
+    function resetearFormulario() { //resetear los campos del formulario
+        setUsuario("");
+        setNumero("");
+        setEmail("");
+        setContraseña("");
+        setRepetirContraseña("");
     }
 
     return (
         <div className="container m-auto flex justify-center items-center  h-screen">
             <div className="formulario flex flex-row w-3/4 overflow-hidden rounded-2xl shadow-xl ">
-                <form onSubmit={mensaje} className="flex flex-col justify-center text-center gap-4 pl-5 pr-5 bg-[#FFFFFF]">
+                <form onSubmit={Validar} className="flex flex-col justify-center text-center gap-4 pl-5 pr-5 bg-[#FFFFFF]">
                     <div className="logo flex justify-center">
                         <img src={logo} alt="Logo" className="max-w-3/6" />
                     </div>
@@ -196,7 +179,7 @@ function CrearUsuario({ agregarUsuarios, listado }) {
                         </button>
                     </div>
                     <button type="submit" className="flex  justify-center  items-center relative bg-[#021B76] text-white p-2 text-xl cursor-pointer rounded-xl  hover:bg-[#000155]"><RiUserAddLine className='absolute left-30 text-2xl' />Crear usuario</button>
-                    <button type="button" className="flex  justify-center  items-center relative bg-[#021B76] text-white p-2 text-xl cursor-pointer rounded-xl  hover:bg-[#000155]" onClick={resetearForm}><LuDelete className='absolute left-30 text-2xl' />Resetear</button>
+                    <button type="button" className="flex  justify-center  items-center relative bg-[#021B76] text-white p-2 text-xl cursor-pointer rounded-xl  hover:bg-[#000155]" onClick={resetearFormulario} ><LuDelete className='absolute left-30 text-2xl' />Resetear</button>
                     <Link to='/' className="flex justify-center items-center border border-[#64748B] p-2 text-xl text-[#64748B] cursor-pointer rounded-xl relative"><GoArrowLeft className=' absolute left-20 text-3xl ' /><span>Volver al Inicio</span> </Link>
                 </form>
                 <div className="imagen">
