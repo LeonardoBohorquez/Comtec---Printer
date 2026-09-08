@@ -1,4 +1,4 @@
-import Login from './components/Login/Login'
+import Login from './components/Login/login';
 import RecuperarContraseña from './components/RecuperarContraseña/RecuperarContraseña';
 import CrearUsuario from './components/CrearUsuario/CrearUsuario';
 import Monitoreo from './components/Monitoreo/Monitoreo';
@@ -14,11 +14,12 @@ function App() {
   return (
     <>
       <Toaster />
+      
       <Routes>
         <Route path='/' element={<Login/>} />
         <Route path='/RecuperarContraseña' element={<RecuperarContraseña />} />
         <Route path='/CrearUsuario' element={<CrearUsuario />} />
-        <Route path='/Monitoreo' element={<Monitoreo />} />
+        <Route path='/Monitoreo/*' element={<Monitoreo />} />
         <Route path='/Menu' element={<Menu/>} />
       </Routes>
     </>

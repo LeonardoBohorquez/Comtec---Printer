@@ -43,7 +43,7 @@ function Login() {
 
         if (busqueda) { // Si el usuario existe, mostrar mensaje de bienvenida y redirigir a la página de monitoreo
 
-            if (toastMostrado.current) return;
+            if (toastMostrado.current) return; // desactiva el toast si ya se ha mostrado uno recientemente
 
             toastMostrado.current = true;
 
@@ -56,7 +56,7 @@ function Login() {
 
             setTimeout(() => {
                 toastMostrado.current = false;
-                navigate("/Monitoreo")
+                navigate("/Monitoreo/Dashboard"); // Redirigir a la página de monitoreo después de 1.5 segundos
             }, 1500);
 
             return;
