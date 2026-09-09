@@ -13,6 +13,7 @@
 | 03/09/2026 | `f928353` | Incorporación de nuevas opciones al menú de monitoreo e iconos adicionales. |
 | 08/09/2026 | `26b4c4a` | Reorganización del módulo de monitoreo en nuevas carpetas y componentes, incorporación del encabezado, contenido principal, dashboard y vistas iniciales para las opciones del menú. Se eliminó el archivo de datos de impresoras anterior. |
 | Registrado previamente | `add8560` | Actualización del registro de usuarios, autenticación con `localStorage` y recuperación de contraseña. |
+| 09/09/2026 | Cambios locales | Incorporación del archivo `parqueDT.json`, conexión del dashboard con los datos almacenados en `sessionStorage`, conteo dinámico de impresoras por estado y actualización del encabezado según la ruta activa. Se normalizaron a mayúsculas los nombres de varios campos del archivo de datos. |
 
 ## Cambios locales pendientes de commit
 
@@ -74,6 +75,16 @@ En `src/components/Monitoreo/Monitoreo.jsx`:
 - Se actualizaron las rutas y el menú para utilizar la nueva estructura de componentes.
 - Se eliminó `src/data/Impresoras.json`, que contenía los datos anteriores de impresoras.
 
+### Cambios realizados el 09/09/2026
+
+- Se agregó `src/data/parqueDT.json` con la información del parque de impresoras.
+- Se configuró `src/App.jsx` para cargar los datos en `sessionStorage` al iniciar la aplicación.
+- Se actualizó `ResumenEstadoImpresoras.jsx` para calcular el total de impresoras, operativas, con alertas, con error y desconectadas.
+- Se agregó un indicador visual para las impresoras con error.
+- Se actualizó `Header.jsx` para mostrar título y descripción según la ruta activa del módulo de monitoreo.
+- Se normalizaron a mayúsculas los nombres de campos relacionados con contadores, estado y fecha de instalación en el archivo de datos.
+- Queda pendiente unificar la clave utilizada en `sessionStorage` y los nombres de las propiedades del JSON con los utilizados por el dashboard.
+
 En el dashboard inicial, posteriormente reorganizado en `src/components/Monitoreo/Main/DashBoard/Dashboard.jsx`:
 
 - Se creó la estructura inicial del componente Dashboard.
@@ -81,12 +92,12 @@ En el dashboard inicial, posteriormente reorganizado en `src/components/Monitore
 
 ## Estado actual
 
-El proyecto cuenta con la navegación principal, el módulo de creación de usuarios y una estructura inicial del sistema de monitoreo. El módulo ya incluye encabezado, menú, contenido principal, dashboard y vistas iniciales para sus opciones. El resumen del dashboard muestra valores de ejemplo y todavía debe conectarse a datos reales.
+El proyecto cuenta con la navegación principal, el módulo de creación de usuarios y una estructura inicial del sistema de monitoreo. El módulo incluye encabezado, menú, contenido principal, dashboard y vistas iniciales para sus opciones. El dashboard ya está preparado para mostrar conteos dinámicos del parque de impresoras, pero requiere unificar las claves de almacenamiento y los nombres de propiedades para completar la conexión con los datos reales.
 
 ## Próximas tareas sugeridas
 
 1. Completar el diseño y la funcionalidad del Dashboard.
 2. Conectar las opciones del menú con sus respectivas rutas.
-3. Conectar las vistas del módulo de monitoreo con datos reales.
+3. Unificar la clave de `sessionStorage` y los nombres de propiedades del archivo de datos.
 4. Eliminar o utilizar los imports no utilizados en el módulo de monitoreo.
 5. Crear un commit para registrar los cambios locales pendientes.
