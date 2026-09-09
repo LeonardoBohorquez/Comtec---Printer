@@ -42,7 +42,7 @@ function Header() {
     const contenido = contenidoPorRuta[pathname] ?? contenidoPorRuta["/Monitoreo/Dashboard"]; // si la ruta no está definida, se muestra el contenido por defecto (Dashboard)
 
     return (
-        <header className="header p-5 flex flex-row justify-between items-center gap-2 bg-[#FFFFFF]">
+        <header className="header p-5 flex flex-row justify-between items-center gap-2">
             <div className="titulo">
                 <h1 className="text-2xl font-bold text-[#16305C]">{contenido.titulo}</h1>
                 <p className="text-[#16305C]">{contenido.descripcion}</p>
