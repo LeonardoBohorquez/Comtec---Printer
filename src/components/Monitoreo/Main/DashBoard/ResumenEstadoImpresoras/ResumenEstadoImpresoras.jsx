@@ -1,4 +1,3 @@
-import { use, useEffect } from "react";
 import { BsPrinter } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa6";
 import { PiWarningOctagonBold } from "react-icons/pi";
@@ -6,22 +5,14 @@ import { CiStreamOff } from "react-icons/ci";
 import { TbCancel } from "react-icons/tb";
 
 
-
-
-
-
-
-
 function ResumenEstadoImpresoras() {
 
-        const parqueDT = JSON.parse(sessionStorage.getItem('impresoras')); // Recuperar los datos del sessionStorage
-        const impresorasTotal = parqueDT.parqueDT.length; // Obtener la cantidad de impresoras
-        const operativas =   parqueDT.parqueDT.filter( impresoras => impresoras.Estado === "Operativa").length; // Obtener la cantidad de impresoras operativas
-        const conAlertas =   parqueDT.parqueDT.filter( impresoras => impresoras.Estado === "Alerta").length; // Obtener la cantidad de impresoras con alertas
-        const fueraDeLinea = parqueDT.parqueDT.filter( impresoras => impresoras.Estado === "Desconectado").length; // Obtener la cantidad de impresoras fuera de línea
-        const error = parqueDT.parqueDT.filter( impresoras => impresoras.Estado === "Error").length; // Obtener la cantidad de impresoras con error
-
-        console.log(error)
+        const parqueDT         = JSON.parse(sessionStorage.getItem('parqueDT')); // Recuperar los datos del sessionStorage
+        const impresorasTotal  = parqueDT.parqueDT.length; // Obtener la cantidad de impresoras
+        const operativas       = parqueDT.parqueDT.filter( impresoras => impresoras.ESTADO === "Operativa").length; // Obtener la cantidad de impresoras operativas
+        const conAlertas       = parqueDT.parqueDT.filter( impresoras => impresoras.ESTADO === "Alerta").length; // Obtener la cantidad de impresoras con alertas
+        const fueraDeLinea     = parqueDT.parqueDT.filter( impresoras => impresoras.ESTADO === "Desconectado").length; // Obtener la cantidad de impresoras fuera de línea
+        const error            = parqueDT.parqueDT.filter( impresoras => impresoras.ESTADO === "Error").length; // Obtener la cantidad de impresoras con error
 
     return (
         <div className="grid grid-cols-5 gap-5 p-2">
