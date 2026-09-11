@@ -14,6 +14,7 @@
 | 08/09/2026 | `26b4c4a` | Reorganización del módulo de monitoreo en nuevas carpetas y componentes, incorporación del encabezado, contenido principal, dashboard y vistas iniciales para las opciones del menú. Se eliminó el archivo de datos de impresoras anterior. |
 | Registrado previamente | `add8560` | Actualización del registro de usuarios, autenticación con `localStorage` y recuperación de contraseña. |
 | 09/09/2026 | Cambios locales | Incorporación del archivo `parqueDT.json`, conexión del dashboard con los datos almacenados en `sessionStorage`, conteo dinámico de impresoras por estado y actualización del encabezado según la ruta activa. Se normalizaron a mayúsculas los nombres de varios campos del archivo de datos. |
+| 10/09/2026 | `14b71b6` | Avance en los gráficos del dashboard, incorporación de visualizaciones por región y modelo, ajustes en el resumen de estados y actualización de los contadores BN, COLOR y SCANER para utilizar puntos como separadores de miles. |
 
 ## Cambios locales pendientes de commit
 
@@ -84,6 +85,13 @@ En `src/components/Monitoreo/Monitoreo.jsx`:
 - Se actualizó `Header.jsx` para mostrar título y descripción según la ruta activa del módulo de monitoreo.
 - Se normalizaron a mayúsculas los nombres de campos relacionados con contadores, estado y fecha de instalación en el archivo de datos.
 - Queda pendiente unificar la clave utilizada en `sessionStorage` y los nombres de las propiedades del JSON con los utilizados por el dashboard.
+
+### Cambios realizados el 10/09/2026
+
+- Se avanzó en los gráficos del dashboard para mostrar la cantidad de impresoras por modelo.
+- Se ajustó el resumen de estados de las impresoras para integrarlo con las nuevas visualizaciones.
+- Se incorporaron dependencias necesarias para los gráficos.
+- Se reemplazaron las comas por puntos en los campos `CONTADOR BN`, `CONTADOR COLOR` y `CONTADOR SCANER` de `src/data/parqueDT.json`, manteniendo sin cambios `CONTADOR TOTAL`.
 
 En el dashboard inicial, posteriormente reorganizado en `src/components/Monitoreo/Main/DashBoard/Dashboard.jsx`:
 

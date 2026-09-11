@@ -1,24 +1,46 @@
-function ImpresorasRegiones() {
+import {
+    PieChart,
+    Pie,
+    Cell,
+    Tooltip,
+    ResponsiveContainer,
+} from 'recharts';
 
-    const parqueDT = JSON.parse(sessionStorage.getItem('parqueDT'));
-    const BN = parqueDT.parqueDT.reduce((total, contador) =>{
-       total["CONTADOR BN"] += contador["CONTADOR BN"]
-       total["CONTADOR COLOR"] += contador["CONTADOR COLOR"]
+const impresiones = 8000;
+const escaneos = 2000;
 
-       return total
+const data = [
+    { name: 'Impresiones', value: impresiones },
+    { name: 'Escaneos', value: escaneos },
+];
 
-    }, {
-        BN: 0,
-        COLOR: 0,
-    })
+const COLORS = ['#0088FE', '#00C49F'];
 
-    console.log(BN)
-
+export default function PrinterChart() {
     return (
-        <div className="bg-white rounded p-4">  
-            <h2 className="text-2xl text-[#16305C] font-bold mb-4">Contadores de impresion</h2>
+        <div className='bg-white p-4 '>
+            <h2 className="text-2xl text-[#16305C] font-bold mb-4">Scaner vs impresiones</h2>
+            <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                    <Pie
+                        data={data}
+                        dataKey="value"
+                        nameKey="name"
+                        label={({ name, percent }) =>
+                            `${name}: ${((percent ?? 0) * 100).toFixed(1)}%`
+                        }
+                    >
+                        {data.map((entry, index) => (
+                            <Cell
+                                key={entry.name}
+                                fill={COLORS[index]}
+                            />
+                        ))}
+                    </Pie>
+
+                    <Tooltip />
+                </PieChart>
+            </ResponsiveContainer>
         </div>
     );
 }
-
-export default ImpresorasRegiones;
